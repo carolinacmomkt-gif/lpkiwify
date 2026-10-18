@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Comunidade da Jô | Aprendendo a Ser Mulher</title>
+  <meta name="description" content="Uma comunidade para mulheres católicas que querem viver o lar com mais paz, fé e leveza. Sem cobrança, sem perfeição. Uma amiga caminhando com você.">
+  <meta name="theme-color" content="#FBF6EF">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="Comunidade da Jô | Aprendendo a Ser Mulher">
+  <meta property="og:description" content="Sua casa começa a ficar em ordem quando o seu coração encontra o lugar dele. Uma comunidade para mulheres católicas que querem viver o lar com mais paz, fé e leveza.">
+  <meta property="og:image" content="img/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Favicon simples (folha) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%82%3C/text%3E%3C/svg%3E">
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,500&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Meta Pixel: descomente e troque PIXEL_ID_AQUI pelo ID do pixel -->
+  <!--
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'PIXEL_ID_AQUI');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=PIXEL_ID_AQUI&ev=PageView&noscript=1"></noscript>
+  -->
+
+  <script>document.documentElement.classList.add('js');</script>
+
+  <style>
+    :root {
+      --creme: #FBF6EF;
+      --off-white: #FFFDF9;
+      --terracota: #C2643A;
+      --terracota-escuro: #9E4B27;
+      --marrom: #4A3428;
+      --marrom-suave: #7A6355;
+      --rosa-seco: #D9A79A;
+      --linha: rgba(74, 52, 40, .14);
+      --sombra: 0 6px 24px rgba(74, 52, 40, .07);
+      --raio: 16px;
+      --gutter: 20px;
+      --largura: 680px;
+      --titulo: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+      --corpo: 'Lato', -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--creme);
+      color: var(--marrom);
+      font-family: var(--corpo);
+      font-size: 17px;
+      line-height: 1.65;
+      overflow-x: hidden;
+      padding-bottom: 88px; /* espaço para o botão fixo no mobile */
+    }
+    img { max-width: 100%; display: block; }
+    a { color: var(--terracota-escuro); }
+    p { margin: 0 0 1em; }
+
+    h1, h2, h3 {
+      font-family: var(--titulo);
+      font-weight: 600;
+      line-height: 1.15;
+      margin: 0 0 .5em;
+      color: var(--marrom);
+    }
+    h1 { font-size: clamp(2.1rem, 7.5vw, 3.2rem); }
+    h2 { font-size: clamp(1.85rem, 6vw, 2.6rem); }
+    h3 { font-size: 1.45rem; }
+    em, .enfase { font-family: var(--titulo); font-style: italic; font-weight: 500; color: var(--terracota); }
+
+    .container { width: 100%; max-width: calc(var(--largura) + var(--gutter) * 2); margin: 0 auto; padding: 0 var(--gutter); }
+    .container--largo { max-width: calc(900px + var(--gutter) * 2); }
+
+    section { padding: 64px 0; }
+    .secao-alt { background: var(--off-white); border-top: 1px solid var(--linha); border-bottom: 1px solid var(--linha); }
+    .centro { text-align: center; }
+    .subtitulo { color: var(--marrom-suave); font-size: 1.08rem; }
+
+    .divisor { display: flex; align-items: center; gap: 14px; color: var(--rosa-seco); margin: 0 auto; max-width: 220px; }
+    .divisor::before, .divisor::after { content: ""; flex: 1; height: 1px; background: var(--rosa-seco); opacity: .6; }
+
+    /* Botões */
+    .btn {
+      display: inline-block;
+      font-family: var(--corpo);
+      font-weight: 700;
+      font-size: 1.02rem;
+      text-decoration: none;
+      text-align: center;
+      padding: 16px 30px;
+      border-radius: 999px;
+      border: 2px solid var(--terracota);
+      background: var(--terracota);
+      color: #fff;
+      cursor: pointer;
+      transition: background .2s, border-color .2s, transform .2s, box-shadow .2s;
+      box-shadow: 0 6px 18px rgba(194, 100, 58, .22);
+      max-width: 100%;
+    }
+    .btn:hover { background: var(--terracota-escuro); border-color: var(--terracota-escuro); transform: translateY(-1px); }
+    .btn--contorno { background: transparent; color: var(--terracota-escuro); box-shadow: none; }
+    .btn--contorno:hover { background: var(--terracota); color: #fff; }
+    .btn--bloco { display: block; width: 100%; }
+    a:focus-visible, .btn:focus-visible, summary:focus-visible, .depoimentos:focus-visible {
+      outline: 3px solid var(--marrom);
+      outline-offset: 3px;
+    }
+    .cta-wrap { margin-top: 36px; text-align: center; }
+
+    /* Placeholders de imagem: bloco off-white com o texto do que deve entrar.
+       Quando a foto existir em /img, ela cobre o bloco automaticamente. */
+    .foto {
+      position: relative;
+      margin: 0;
+      border-radius: var(--raio);
+      overflow: hidden;
+      background: var(--off-white);
+      border: 1px dashed var(--rosa-seco);
+      box-shadow: var(--sombra);
+    }
+    .foto__ph {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px; text-align: center;
+      font-size: .9rem; color: var(--marrom-suave); line-height: 1.45;
+    }
+    .foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .r-4x5 { aspect-ratio: 4 / 5; }
+    .r-1x1 { aspect-ratio: 1 / 1; }
+
+    /* Hero */
+    .hero { padding-top: 40px; }
+    .selo {
+      display: inline-block;
+      font-size: .85rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+      color: var(--terracota-escuro);
+      background: var(--off-white);
+      border: 1px solid var(--rosa-seco);
+      border-radius: 999px;
+      padding: 6px 14px;
+      margin-bottom: 18px;
+    }
+    .hero__texto { text-align: center; }
+    .hero .subtitulo { font-size: 1.12rem; margin-bottom: 28px; }
+    .hero__preco { font-size: .92rem; color: var(--marrom-suave); margin-top: 12px; }
+    .hero .foto { margin-top: 40px; }
+
+    /* Identificação */
+    .lista-folhas { list-style: none; padding: 0; margin: 28px 0; }
+    .lista-folhas li {
+      position: relative;
+      padding: 16px 0 16px 38px;
+      border-bottom: 1px solid var(--linha);
+    }
+    .lista-folhas li:last-child { border-bottom: 0; }
+    .lista-folhas li::before { content: "🍂"; position: absolute; left: 0; top: 15px; font-size: 1.1rem; }
+    .destaque {
+      font-family: var(--titulo); font-style: italic; font-weight: 500;
+      font-size: 1.7rem; line-height: 1.3;
+      color: var(--terracota-escuro);
+      text-align: center; margin: 32px 0 0;
+    }
+
+    /* História */
+    .historia p { font-size: 1.08rem; }
+    .assinatura {
+      font-family: var(--titulo); font-style: italic; font-weight: 500;
+      font-size: 1.9rem; color: var(--terracota-escuro); margin-top: 24px;
+    }
+
+    /* Cards da comunidade */
+    .cards { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 32px; }
+    .card {
+      background: var(--creme);
+      border: 1px solid var(--linha);
+      border-radius: var(--raio);
+      padding: 24px;
+      box-shadow: var(--sombra);
+    }
+    .card__icone { font-size: 1.8rem; line-height: 1; margin-bottom: 10px; }
+    .card h3 { margin-bottom: .25em; }
+    .card p { margin: 0; color: var(--marrom-suave); }
+
+    /* Sobre */
+    .sobre { display: grid; grid-template-columns: 1fr; gap: 32px; align-items: center; }
+    .sobre .foto { max-width: 420px; width: 100%; margin: 0 auto; }
+    .nota { font-size: .95rem; color: var(--marrom-suave); margin-top: 8px; }
+
+    /* Depoimentos: carrossel com snap no mobile, grade no desktop */
+    .depoimentos {
+      display: flex; gap: 14px;
+      overflow-x: auto; scroll-snap-type: x mandatory;
+      padding: 8px var(--gutter) 20px;
+      margin: 24px calc(var(--gutter) * -1) 0;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+    }
+    .depoimento {
+      flex: 0 0 82%;
+      scroll-snap-align: center;
+      background: var(--creme);
+      border: 1px solid var(--linha);
+      border-radius: var(--raio);
+      padding: 26px 22px;
+      box-shadow: var(--sombra);
+      display: flex; flex-direction: column; justify-content: space-between;
+      margin: 0;
+    }
+    .depoimento blockquote {
+      margin: 0 0 16px;
+      font-family: var(--titulo); font-size: 1.4rem; line-height: 1.35; font-style: italic; font-weight: 500;
+    }
+    .depoimento figcaption { font-size: .92rem; font-weight: 700; color: var(--terracota-escuro); }
+    .dica-arraste { font-size: .85rem; color: var(--marrom-suave); text-align: center; margin: 0; }
+    .mimos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 36px; }
+    .legenda { text-align: center; color: var(--marrom-suave); font-style: italic; margin-top: 14px; }
+
+    /* Planos */
+    .planos { display: flex; flex-direction: column; gap: 22px; margin-top: 36px; }
+    .plano {
+      position: relative;
+      background: var(--off-white);
+      border: 1px solid var(--linha);
+      border-radius: var(--raio);
+      padding: 32px 24px 28px;
+      box-shadow: var(--sombra);
+      display: flex; flex-direction: column;
+    }
+    .plano--destaque {
+      border: 2px solid var(--terracota);
+      background: #FFFFFF;
+      box-shadow: 0 12px 36px rgba(194, 100, 58, .16);
+      padding-top: 44px;
+    }
+    .plano__selo {
+      position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%);
+      background: var(--terracota); color: #fff;
+      font-size: .8rem; font-weight: 700; letter-spacing: .02em;
+      padding: 7px 16px; border-radius: 999px; white-space: nowrap;
+    }
+    .plano h3 { font-size: 1.7rem; margin-bottom: .2em; }
+    .plano__preco { font-family: var(--titulo); font-weight: 600; font-size: 2.3rem; line-height: 1.1; color: var(--marrom); margin: 6px 0 4px; }
+    .plano__preco small { font-size: 1.1rem; font-weight: 600; }
+    .plano__obs { font-size: .95rem; color: var(--marrom-suave); margin: 0 0 18px; }
+    .plano ul { list-style: none; padding: 0; margin: 0 0 26px; flex: 1; }
+    .plano li { padding: 7px 0 7px 28px; position: relative; }
+    .plano li::before { content: "✓"; position: absolute; left: 0; color: var(--terracota); font-weight: 700; }
+    .seguranca { text-align: center; font-size: .92rem; color: var(--marrom-suave); margin-top: 28px; }
+
+    /* FAQ */
+    .faq { margin-top: 28px; }
+    .faq details {
+      background: var(--off-white);
+      border: 1px solid var(--linha);
+      border-radius: var(--raio);
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .faq summary {
+      cursor: pointer; list-style: none;
+      padding: 18px 52px 18px 20px; position: relative;
+      font-weight: 700;
+    }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after {
+      content: "+"; position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+      font-family: var(--titulo); font-size: 1.8rem; color: var(--terracota); transition: transform .2s;
+    }
+    .faq details[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+    .faq details p { padding: 0 20px 18px; margin: 0; color: var(--marrom-suave); }
+
+    /* Fechamento */
+    .fechamento { background: var(--off-white); text-align: center; border-top: 1px solid var(--linha); }
+    .fechamento p { font-size: 1.12rem; }
+
+    /* Rodapé */
+    footer { padding: 36px 0 28px; text-align: center; font-size: .88rem; color: var(--marrom-suave); }
+    footer nav { margin-bottom: 10px; }
+    footer nav a { color: var(--marrom-suave); text-decoration: none; padding: 4px; }
+    footer nav a:hover { color: var(--terracota-escuro); text-decoration: underline; }
+
+    /* Botão fixo (mobile) */
+    .cta-fixo {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+      padding: 12px var(--gutter) calc(12px + env(safe-area-inset-bottom));
+      background: linear-gradient(to top, rgba(251, 246, 239, 1) 60%, rgba(251, 246, 239, 0));
+      transition: transform .3s ease, opacity .3s ease;
+    }
+    .cta-fixo.oculto { transform: translateY(110%); opacity: 0; pointer-events: none; }
+
+    /* Fade-in ao rolar */
+    .js .revelar { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+    .js .revelar.visivel { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .js .revelar { opacity: 1; transform: none; transition: none; }
+      .btn, .cta-fixo { transition: none; }
+    }
+
+    /* Desktop */
+    @media (min-width: 768px) {
+      body { padding-bottom: 0; font-size: 18px; }
+      section { padding: 88px 0; }
+      .cta-fixo { display: none; }
+      .cards { grid-template-columns: 1fr 1fr; }
+      .sobre { grid-template-columns: 5fr 7fr; gap: 40px; }
+      .hero { padding-top: 64px; }
+      .hero .foto { max-width: 520px; margin-left: auto; margin-right: auto; }
+      .depoimentos {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+        overflow: visible; padding: 0; margin: 28px 0 0;
+      }
+      .dica-arraste { display: none; }
+      .planos { flex-direction: row; align-items: center; gap: 26px; }
+      .plano { flex: 1; }
+      .plano--mensal { order: 1; }
+      .plano--destaque { order: 2; flex: 1.12; padding: 52px 34px 36px; }
+    }
+  </style>
+</head>
+<body>
+
+<main>
+
+  <!-- ============ DOBRA 1 — ABERTURA (HERO) ============ -->
+  <section class="hero" aria-labelledby="titulo-hero">
+    <div class="container">
+      <div class="hero__texto">
+        <span class="selo">🍂 Comunidade da Jô</span>
+        <h1 id="titulo-hero">Sua casa começa a ficar em ordem quando o seu coração <em>encontra o lugar dele.</em></h1>
+        <p class="subtitulo">Uma comunidade para mulheres católicas que querem viver o lar com mais paz, fé e leveza. Sem cobrança, sem perfeição. Uma amiga caminhando com você.</p>
+        <a href="#planos" class="btn js-rolar">Quero fazer parte</a>
+        <p class="hero__preco">A partir de R$ 24,80 por mês</p>
+      </div>
+      <!-- FOTO: img/jo-hero.jpg — Jô em casa, na cozinha ou com uma xícara de café, luz natural. Proporção 4:5. (Primeira imagem: sem lazy) -->
+      <figure class="foto r-4x5">
+        <span class="foto__ph">Foto: Jô em casa, na cozinha ou com uma xícara de café, luz natural (img/jo-hero.jpg · 4:5)</span>
+        <img src="img/jo-hero.jpg" alt="Jô sorrindo na cozinha de casa, segurando uma xícara de café sob luz natural" width="800" height="1000" fetchpriority="high" onerror="this.remove()">
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ DOBRA 2 — IDENTIFICAÇÃO ============ -->
+  <section class="secao-alt" aria-labelledby="titulo-identificacao">
+    <div class="container revelar">
+      <h2 id="titulo-identificacao" class="centro">Talvez você esteja vivendo <em>isso agora</em></h2>
+      <ul class="lista-folhas">
+        <li>Você termina o dia com a sensação de que não deu conta de nada.</li>
+        <li>Já se calou e se diminuiu tantas vezes para não decepcionar ninguém que nem sabe mais do que gosta.</li>
+        <li>A casa pesa, porque por dentro também está pesado.</li>
+        <li>Você reza, espera e, às vezes, se sente sozinha nessa espera.</li>
+        <li>Sabe que existe uma forma mais leve de viver o lar, mas não sabe por onde começar.</li>
+      </ul>
+      <p class="destaque">Eu sei como é, minha amiga. Eu já estive aí.</p>
+    </div>
+  </section>
+
+  <!-- ============ DOBRA 3 — A HISTÓRIA E A CRENÇA DA JÔ ============ -->
+  <section class="historia" aria-labelledby="titulo-historia">
+    <div class="container revelar">
+      <h2 id="titulo-historia">Eu me procurei por anos lá fora. E sempre estive <em>aqui dentro.</em></h2>
+      <p>Por muito tempo eu vivi fora de mim. Tentando ser aquilo que esperavam, escondendo partes de quem eu sou, buscando lá fora uma paz que não chegava.</p>
+      <p>Até entender que ser dona de casa não começa nas tarefas que fazemos. Começa na mulher que escolhemos ser por dentro.</p>
+      <p>Quando o coração se ordena em Deus, a casa acompanha. A rotina fica mais leve, o casamento respira, e a gente volta a enxergar a beleza dos dias comuns.</p>
+      <p>Foi esse caminho que transformou a minha vida. E é esse caminho que eu quero fazer com você.</p>
+      <p class="assinatura">Com carinho, Jô 🧡</p>
+    </div>
+  </section>
+
+  <!-- CONFIRMAR COM A JÔ: formato, frequência das lives e materiais incluídos. Ajustar os cards ao conteúdo real. -->
+  <!-- ============ DOBRA 4 — O QUE VOCÊ ENCONTRA NA COMUNIDADE ============ -->
+  <section class="secao-alt" aria-labelledby="titulo-comunidade">
+    <div class="container revelar">
+      <h2 id="titulo-comunidade" class="centro">Um lugar para cuidar de você <em>por inteiro</em></h2>
+      <p class="subtitulo centro">Por fora e por dentro, com fé e com os pés no chão da vida real.</p>
+      <div class="cards">
+        <article class="card">
+          <div class="card__icone" aria-hidden="true">🕯️</div>
+          <h3>Ordem interior</h3>
+          <p>Encontros e reflexões para reorganizar o coração antes de reorganizar a casa.</p>
+        </article>
+        <article class="card">
+          <div class="card__icone" aria-hidden="true">🙏</div>
+          <h3>Vida de oração</h3>
+          <p>Um caminho simples para fazer da oração o sustento do seu dia.</p>
+        </article>
+        <article class="card">
+          <div class="card__icone" aria-hidden="true">🌹</div>
+          <h3>Com Santa Rita</h3>
+          <p>Para aprender, com ela, a esperar com fé, especialmente quem espera a conversão de quem ama.</p>
+        </article>
+        <article class="card">
+          <div class="card__icone" aria-hidden="true">🏠</div>
+          <h3>Lar e rotina</h3>
+          <p>Ideias práticas para viver a casa com leveza e sem culpa.</p>
+        </article>
+        <article class="card">
+          <div class="card__icone" aria-hidden="true">💍</div>
+          <h3>Casamento e feminilidade</h3>
+          <p>Conversas sobre ser esposa, mulher e cuidar de si.</p>
+        </article>
+        <article class="card">
+          <div class="card__icone" aria-hidden="true">☕</div>
+          <h3>Uma comunidade de amigas</h3>
+          <p>Mulheres que caminham juntas, se apoiam e rezam umas pelas outras.</p>
+        </article>
+      </div>
+      <div class="cta-wrap">
+        <a href="#planos" class="btn js-rolar">Quero entrar na comunidade</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DOBRA 5 — QUEM VAI CAMINHAR COM VOCÊ ============ -->
+  <section aria-labelledby="titulo-sobre">
+    <div class="container container--largo">
+      <div class="sobre revelar">
+        <!-- FOTO: img/jo-retrato.jpg — retrato da Jô, olhando para a câmera, fundo de casa aconchegante. Proporção 4:5. -->
+        <figure class="foto r-4x5">
+          <span class="foto__ph">Foto: retrato da Jô, olhando para a câmera, em casa (img/jo-retrato.jpg · 4:5)</span>
+          <img src="img/jo-retrato.jpg" alt="Retrato de Joaria Borges, a Jô, sorrindo em casa" width="800" height="1000" loading="lazy" onerror="this.remove()">
+        </figure>
+        <div>
+          <h2 id="titulo-sobre">Prazer, eu sou <em>a Jô</em></h2>
+          <p>Sou dona de casa, esposa e católica. Hoje estou em formação como terapeuta, com um desejo muito claro no coração: cuidar de donas de casa.</p>
+          <p>Ser dona de casa é um trabalho invisível, sem holofote e exigente. E eu acredito que ele merece profundidade, cuidado e um olhar para dentro.</p>
+          <p>Não quero cuidar de mulheres só por fora. Quero cuidar de mulheres inteiras, para que a casa seja o reflexo do que está sendo construído dentro delas.</p>
+          <p class="nota">Santa Rita é a intercessora deste trabalho. 🌹</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DOBRA 6 — O QUE AS ALUNAS DIZEM ============ -->
+  <!-- Confirmar autorização das alunas. Se possível, trocar por prints reais em img/depoimentos/. -->
+  <section class="secao-alt" aria-labelledby="titulo-depoimentos">
+    <div class="container revelar">
+      <h2 id="titulo-depoimentos" class="centro">O que as alunas <em>dizem</em></h2>
+      <div class="depoimentos" tabindex="0" role="region" aria-label="Depoimentos das alunas">
+        <figure class="depoimento">
+          <blockquote>“A comunidade foi a resposta de uma oração.”</blockquote>
+          <figcaption>Aluna da comunidade</figcaption>
+        </figure>
+        <figure class="depoimento">
+          <blockquote>“Uma grande graça conhecer ainda mais sobre Santa Rita através de você e da comunidade.”</blockquote>
+          <figcaption>@dacisouza</figcaption>
+        </figure>
+        <figure class="depoimento">
+          <blockquote>“Aula maravilhosa e extremamente necessária. Verdadeiro ouro em pó.”</blockquote>
+          <figcaption>@wivianne</figcaption>
+        </figure>
+        <figure class="depoimento">
+          <blockquote>“Você é tão necessária para nós, Jô.”</blockquote>
+          <figcaption>@karinapaivaoliveira</figcaption>
+        </figure>
+      </div>
+      <p class="dica-arraste">Arraste para o lado para ler mais →</p>
+
+      <div class="mimos">
+        <!-- FOTO: img/mimo-1.jpg — mimo enviado às alunas: caneca personalizada. Proporção 1:1. -->
+        <figure class="foto r-1x1">
+          <span class="foto__ph">Foto: caneca personalizada enviada às alunas (img/mimo-1.jpg · 1:1)</span>
+          <img src="img/mimo-1.jpg" alt="Caneca personalizada da comunidade enviada de presente às alunas" width="600" height="600" loading="lazy" onerror="this.remove()">
+        </figure>
+        <!-- FOTO: img/mimo-2.jpg — mimo enviado às alunas: receitas. Proporção 1:1. -->
+        <figure class="foto r-1x1">
+          <span class="foto__ph">Foto: receitas enviadas às alunas (img/mimo-2.jpg · 1:1)</span>
+          <img src="img/mimo-2.jpg" alt="Cartões de receitas enviados de presente às alunas da comunidade" width="600" height="600" loading="lazy" onerror="this.remove()">
+        </figure>
+      </div>
+      <p class="legenda">Cada aluna é preciosa para mim. 🧡</p>
+    </div>
+  </section>
+
+  <!-- ============ DOBRA 7 — PLANOS ============ -->
+  <section id="planos" aria-labelledby="titulo-planos">
+    <div class="container container--largo">
+      <h2 id="titulo-planos" class="centro">Escolha como você quer <em>caminhar com a gente</em></h2>
+
+      <div class="planos">
+        <!-- Anual vem primeiro no HTML (recomendado no mobile); no desktop fica à direita via CSS order -->
+        <article class="plano plano--destaque" aria-labelledby="nome-anual">
+          <span class="plano__selo">Mais escolhido · Economize mais de 50%</span>
+          <h3 id="nome-anual">Plano Anual</h3>
+          <p class="plano__preco">12x de R$ 30,81</p>
+          <p class="plano__obs">ou R$ 297,90 à vista · equivale a R$ 24,80 por mês</p>
+          <ul>
+            <li>Acesso completo à comunidade por 12 meses</li>
+            <li>Todos os encontros, conteúdos e materiais</li>
+            <li>Caminhada contínua, sem se preocupar com renovação</li>
+            <li>O melhor custo por mês</li>
+          </ul>
+          <a href="https://pay.kiwify.com.br/AUitffs" class="btn btn--bloco js-checkout" data-valor="297.90">Quero o plano anual</a>
+        </article>
+
+        <article class="plano plano--mensal" aria-labelledby="nome-mensal">
+          <h3 id="nome-mensal">Plano Mensal</h3>
+          <p class="plano__preco">R$ 59,90<small>/mês</small></p>
+          <p class="plano__obs">Comece agora, sem compromisso longo</p>
+          <ul>
+            <li>Acesso completo à comunidade</li>
+            <li>Todos os encontros, conteúdos e materiais</li>
+            <li>Pagamento mês a mês</li>
+          </ul>
+          <a href="https://pay.kiwify.com.br/PcmUSAy" class="btn btn--contorno btn--bloco js-checkout" data-valor="59.90">Quero o plano mensal</a>
+        </article>
+      </div>
+
+      <!-- CONFIRMAR: garantia de 7 dias e regra de cancelamento do mensal. -->
+      <p class="seguranca">🔒 Pagamento seguro pela Kiwify · Cartão ou Pix · Garantia de 7 dias</p>
+    </div>
+  </section>
+
+  <!-- ============ DOBRA 8 — PERGUNTAS FREQUENTES ============ -->
+  <section class="secao-alt" aria-labelledby="titulo-faq">
+    <div class="container revelar">
+      <h2 id="titulo-faq" class="centro">Ficou alguma <em>dúvida?</em></h2>
+      <div class="faq">
+        <details>
+          <summary>Preciso ser católica para participar?</summary>
+          <p>A comunidade nasce da fé católica e tudo aqui é vivido a partir dela. Se você deseja caminhar com esse olhar, será muito bem-vinda.</p>
+        </details>
+        <details>
+          <summary>Não sou dona de casa em tempo integral. Serve para mim?</summary>
+          <p>Serve. A comunidade é para toda mulher que deseja viver o lar e a própria vida com mais ordem interior, trabalhe ela fora de casa ou não.</p>
+        </details>
+        <details>
+          <summary>Como eu acesso depois de pagar?</summary>
+          <p>Assim que o pagamento é aprovado, você recebe no seu e-mail as orientações de acesso.</p>
+        </details>
+        <details>
+          <summary>Qual a diferença entre o mensal e o anual?</summary>
+          <p>O conteúdo é o mesmo. No anual você garante 12 meses pagando bem menos por mês. No mensal, você paga mês a mês.</p>
+        </details>
+        <details>
+          <summary>Posso cancelar o plano mensal?</summary>
+          <p>Sim, você pode cancelar a renovação quando quiser.</p>
+        </details>
+        <details>
+          <summary>E se eu não gostar?</summary>
+          <p>Você tem 7 dias de garantia. Se não for para você, é só pedir o reembolso.</p>
+        </details>
+        <details>
+          <summary>Ainda não me sinto pronta. Tem algo gratuito?</summary>
+          <p>Tem! Entre no meu grupo VIP gratuito no WhatsApp: <a href="https://chat.whatsapp.com/LCE4GlemDbT8Vytrkc5jDs" target="_blank" rel="noopener">entrar no grupo VIP</a></p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DOBRA 9 — FECHAMENTO ============ -->
+  <section class="fechamento" aria-labelledby="titulo-fechamento">
+    <div class="container revelar">
+      <div class="divisor" aria-hidden="true">🍂</div>
+      <h2 id="titulo-fechamento" style="margin-top:20px">Os dias comuns também podem ser <em>bonitos.</em></h2>
+      <p>Você não precisa dar conta de tudo. Precisa só dar o primeiro passo, e não vai dar sozinha. Eu estou te esperando aqui dentro.</p>
+      <div class="cta-wrap">
+        <a href="#planos" class="btn js-rolar">Quero fazer parte da comunidade</a>
+      </div>
+      <p class="assinatura">Jô 🧡</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <nav aria-label="Redes sociais">
+      <a href="https://www.instagram.com/joariaborgess" target="_blank" rel="noopener">Instagram</a> ·
+      <a href="https://www.youtube.com/@joariaborgess" target="_blank" rel="noopener">YouTube</a> ·
+      <a href="https://www.tiktok.com/@joaria.borges" target="_blank" rel="noopener">TikTok</a>
+    </nav>
+    <p>© 2026 Joaria Borges · Comunidade Aprendendo a Ser Mulher</p>
+  </div>
+</footer>
+
+<!-- Botão fixo (só mobile) -->
+<div class="cta-fixo" id="cta-fixo">
+  <a href="#planos" class="btn btn--bloco js-rolar">Quero entrar na comunidade</a>
+</div>
+
+<script>
+  (function () {
+    var reduzir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var planos = document.getElementById('planos');
+
+    // CTAs: rolagem suave até #planos
+    document.querySelectorAll('.js-rolar').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        planos.scrollIntoView({ behavior: reduzir ? 'auto' : 'smooth', block: 'start' });
+        if (history.replaceState) history.replaceState(null, '', '#planos');
+      });
+    });
+
+    // Checkout: dispara InitiateCheckout no Pixel (se existir) e segue na mesma aba
+    document.querySelectorAll('.js-checkout').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (typeof window.fbq === 'function') {
+          window.fbq('track', 'InitiateCheckout', { value: parseFloat(btn.dataset.valor), currency: 'BRL' });
+        }
+      });
+    });
+
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll('.revelar').forEach(function (el) { el.classList.add('visivel'); });
+      return;
+    }
+
+    // Botão fixo some quando a seção de planos está visível
+    var ctaFixo = document.getElementById('cta-fixo');
+    new IntersectionObserver(function (entradas) {
+      ctaFixo.classList.toggle('oculto', entradas[0].isIntersecting);
+    }, { threshold: 0.15 }).observe(planos);
+
+    // Fade-in ao rolar
+    var revelar = document.querySelectorAll('.revelar');
+    if (reduzir) {
+      revelar.forEach(function (el) { el.classList.add('visivel'); });
+      return;
+    }
+    var obs = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('visivel'); obs.unobserve(en.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revelar.forEach(function (el) { obs.observe(el); });
+  })();
+</script>
+</body>
+</html>
