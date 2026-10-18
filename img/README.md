@@ -1,6 +1,6 @@
 # Imagens da landing page
 
-A página não usa fotos no corpo. A única imagem necessária é a de compartilhamento do link.
+A página não usa fotos no corpo. A única imagem é a de compartilhamento do link (`og.jpg`), que já está pronta nesta pasta.
 
 | Arquivo | Onde aparece | Proporção | Tamanho sugerido | O que deve mostrar |
 |---|---|---|---|---|
