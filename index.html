@@ -42,19 +42,22 @@
   <style>
     :root {
       --creme: #FBF6EF;
-      --off-white: #FFFDF9;
+      --bege: #F1E6D8;
+      --blush: #F6E6DE;
       --terracota: #C2643A;
       --terracota-escuro: #9E4B27;
       --marrom: #4A3428;
       --marrom-suave: #7A6355;
       --rosa-seco: #D9A79A;
-      --linha: rgba(74, 52, 40, .14);
-      --sombra: 0 6px 24px rgba(74, 52, 40, .07);
+      --linha: rgba(74, 52, 40, .12);
+      --sombra: 0 8px 28px rgba(74, 52, 40, .07);
+      --sombra-hover: 0 16px 40px rgba(158, 75, 39, .14);
       --raio: 16px;
       --gutter: 20px;
       --largura: 680px;
       --titulo: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
       --corpo: 'Lato', -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+      --suave: cubic-bezier(.22, .8, .32, 1);
     }
 
     *, *::before, *::after { box-sizing: border-box; }
@@ -65,11 +68,10 @@
       color: var(--marrom);
       font-family: var(--corpo);
       font-size: 17px;
-      line-height: 1.65;
+      line-height: 1.7;
       overflow-x: hidden;
       padding-bottom: 88px; /* espaço para o botão fixo no mobile */
     }
-    img { max-width: 100%; display: block; }
     a { color: var(--terracota-escuro); }
     p { margin: 0 0 1em; }
 
@@ -79,259 +81,392 @@
       line-height: 1.15;
       margin: 0 0 .5em;
       color: var(--marrom);
+      text-wrap: balance;
     }
-    h1 { font-size: clamp(2.1rem, 7.5vw, 3.2rem); }
-    h2 { font-size: clamp(1.85rem, 6vw, 2.6rem); }
+    h1 { font-size: clamp(2.3rem, 8vw, 3.6rem); line-height: 1.08; }
+    h2 { font-size: clamp(1.95rem, 6.2vw, 2.7rem); }
     h3 { font-size: 1.45rem; }
-    em, .enfase { font-family: var(--titulo); font-style: italic; font-weight: 500; color: var(--terracota); }
 
-    .container { width: 100%; max-width: calc(var(--largura) + var(--gutter) * 2); margin: 0 auto; padding: 0 var(--gutter); }
+    /* Palavras em ênfase: itálico terracota com um traço rosado que se desenha */
+    em {
+      font-family: var(--titulo); font-style: italic; font-weight: 500; color: var(--terracota);
+      background: linear-gradient(rgba(217, 167, 154, .45), rgba(217, 167, 154, .45)) no-repeat 0 88% / 0% .22em;
+      transition: background-size 1.1s var(--suave) .35s;
+      padding: 0 .05em;
+    }
+    .visivel em, .hero em { background-size: 100% .22em; }
+
+    .container { position: relative; width: 100%; max-width: calc(var(--largura) + var(--gutter) * 2); margin: 0 auto; padding: 0 var(--gutter); }
     .container--largo { max-width: calc(900px + var(--gutter) * 2); }
 
-    section { padding: 64px 0; }
-    .secao-alt { background: var(--off-white); border-top: 1px solid var(--linha); border-bottom: 1px solid var(--linha); }
+    section { padding: 72px 0; }
     .centro { text-align: center; }
     .subtitulo { color: var(--marrom-suave); font-size: 1.08rem; }
 
-    .divisor { display: flex; align-items: center; gap: 14px; color: var(--rosa-seco); margin: 0 auto; max-width: 220px; }
-    .divisor::before, .divisor::after { content: ""; flex: 1; height: 1px; background: var(--rosa-seco); opacity: .6; }
+    /* Seções bege com bordas onduladas */
+    .bege { background: var(--bege); position: relative; z-index: 1; }
+    .bege::before, .bege::after {
+      content: ""; position: absolute; left: 0; right: 0; height: 36px; pointer-events: none;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 36' preserveAspectRatio='none'%3E%3Cpath d='M0 36 C240 4 480 4 720 20 C960 36 1200 30 1440 8 L1440 36 Z' fill='%23F1E6D8'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+    }
+    .bege::before { top: -35px; }
+    .bege::after { bottom: -35px; transform: scaleY(-1) scaleX(-1); }
+
+    /* Ramo botânico que se desenha */
+    .ramo { display: block; width: 150px; height: 38px; margin: 0 auto 18px; overflow: visible; }
+    .ramo path, .ramo circle { fill: none; stroke: var(--terracota); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+    .ramo .folha { fill: rgba(217, 167, 154, .35); stroke: var(--rosa-seco); }
+    .ramo circle { fill: var(--rosa-seco); stroke: none; }
+    .js .ramo path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.6s var(--suave) .2s; }
+    .js .ramo .folha { transition-delay: .9s; }
+    .js .ramo circle { opacity: 0; transform: scale(.2); transform-origin: 80px 5px; transition: opacity .6s 1.4s, transform .6s var(--suave) 1.4s; }
+    .js .visivel .ramo path, .js .hero .ramo path { stroke-dashoffset: 0; }
+    .js .visivel .ramo circle, .js .hero .ramo circle { opacity: 1; transform: none; }
 
     /* Botões */
     .btn {
+      position: relative; overflow: hidden;
       display: inline-block;
       font-family: var(--corpo);
       font-weight: 700;
       font-size: 1.02rem;
+      letter-spacing: .01em;
       text-decoration: none;
       text-align: center;
-      padding: 16px 30px;
+      padding: 17px 34px;
       border-radius: 999px;
       border: 2px solid var(--terracota);
       background: var(--terracota);
       color: #fff;
       cursor: pointer;
-      transition: background .2s, border-color .2s, transform .2s, box-shadow .2s;
-      box-shadow: 0 6px 18px rgba(194, 100, 58, .22);
+      transition: background .25s, border-color .25s, color .25s, transform .25s var(--suave), box-shadow .25s;
+      box-shadow: 0 8px 22px rgba(194, 100, 58, .25);
       max-width: 100%;
     }
-    .btn:hover { background: var(--terracota-escuro); border-color: var(--terracota-escuro); transform: translateY(-1px); }
+    .btn::after {
+      content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%;
+      background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .35), transparent);
+      transform: skewX(-20deg);
+      animation: brilho 4.5s ease-in-out infinite;
+    }
+    @keyframes brilho { 0%, 65% { left: -60%; } 100% { left: 130%; } }
+    .btn:hover { background: var(--terracota-escuro); border-color: var(--terracota-escuro); transform: translateY(-2px); box-shadow: 0 12px 28px rgba(158, 75, 39, .3); }
     .btn--contorno { background: transparent; color: var(--terracota-escuro); box-shadow: none; }
+    .btn--contorno::after { display: none; }
     .btn--contorno:hover { background: var(--terracota); color: #fff; }
     .btn--bloco { display: block; width: 100%; }
     a:focus-visible, .btn:focus-visible, summary:focus-visible, .depoimentos:focus-visible {
       outline: 3px solid var(--marrom);
       outline-offset: 3px;
     }
-    .cta-wrap { margin-top: 36px; text-align: center; }
+    .cta-wrap { margin-top: 40px; text-align: center; }
 
-    /* Placeholders de imagem: bloco off-white com o texto do que deve entrar.
-       Quando a foto existir em /img, ela cobre o bloco automaticamente. */
-    .foto {
-      position: relative;
-      margin: 0;
-      border-radius: var(--raio);
-      overflow: hidden;
-      background: var(--off-white);
-      border: 1px dashed var(--rosa-seco);
-      box-shadow: var(--sombra);
+    /* Pétalas caindo (decorativas) */
+    .petalas { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+    .petala {
+      position: absolute; top: -30px;
+      width: 12px; height: 16px;
+      background: var(--rosa-seco);
+      border-radius: 150% 0 150% 0;
+      opacity: 0;
+      animation: cair linear infinite;
     }
-    .foto__ph {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      padding: 20px; text-align: center;
-      font-size: .9rem; color: var(--marrom-suave); line-height: 1.45;
+    .petala:nth-child(3n) { background: #E8C3B6; width: 9px; height: 12px; }
+    .petala:nth-child(4n) { background: rgba(194, 100, 58, .45); }
+    @keyframes cair {
+      0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
+      10% { opacity: .75; }
+      50% { transform: translate3d(40px, 50vh, 0) rotate(180deg); }
+      90% { opacity: .6; }
+      100% { transform: translate3d(-20px, 105vh, 0) rotate(360deg); opacity: 0; }
     }
-    .foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-    .r-4x5 { aspect-ratio: 4 / 5; }
-    .r-1x1 { aspect-ratio: 1 / 1; }
 
     /* Hero */
-    .hero { padding-top: 40px; }
+    .hero {
+      position: relative;
+      padding: 56px 0 84px;
+      text-align: center;
+      background:
+        radial-gradient(ellipse 60% 45% at 15% 20%, rgba(217, 167, 154, .28), transparent 70%),
+        radial-gradient(ellipse 55% 40% at 90% 75%, rgba(241, 230, 216, .9), transparent 70%),
+        var(--creme);
+    }
+    .hero .container { z-index: 1; }
     .selo {
       display: inline-block;
-      font-size: .85rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+      font-size: .82rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
       color: var(--terracota-escuro);
-      background: var(--off-white);
+      background: rgba(255, 255, 255, .6);
       border: 1px solid var(--rosa-seco);
       border-radius: 999px;
-      padding: 6px 14px;
-      margin-bottom: 18px;
+      padding: 7px 16px;
+      margin-bottom: 22px;
     }
-    .hero__texto { text-align: center; }
-    .hero .subtitulo { font-size: 1.12rem; margin-bottom: 28px; }
-    .hero__preco { font-size: .92rem; color: var(--marrom-suave); margin-top: 12px; }
-    .hero .foto { margin-top: 40px; }
+    .hero .subtitulo { font-size: 1.15rem; max-width: 34em; margin: 0 auto 34px; }
+    .js .entrada > * { opacity: 0; transform: translateY(16px); animation: subir .9s var(--suave) forwards; }
+    .js .entrada > :nth-child(1) { animation-delay: .1s; }
+    .js .entrada > :nth-child(2) { animation-delay: .3s; }
+    .js .entrada > :nth-child(3) { animation-delay: .5s; }
+    .js .entrada > :nth-child(4) { animation-delay: .75s; }
+    .js .entrada > :nth-child(5) { animation-delay: .95s; }
+    @keyframes subir { to { opacity: 1; transform: none; } }
+    .hero em { transition-delay: 1.2s; }
 
     /* Identificação */
-    .lista-folhas { list-style: none; padding: 0; margin: 28px 0; }
+    .lista-folhas { list-style: none; padding: 0; margin: 30px 0; display: grid; gap: 12px; }
     .lista-folhas li {
       position: relative;
-      padding: 16px 0 16px 38px;
-      border-bottom: 1px solid var(--linha);
+      padding: 16px 18px 16px 52px;
+      background: rgba(251, 246, 239, .7);
+      border-radius: var(--raio);
+      transition: transform .3s var(--suave), background .3s;
     }
-    .lista-folhas li:last-child { border-bottom: 0; }
-    .lista-folhas li::before { content: "🍂"; position: absolute; left: 0; top: 15px; font-size: 1.1rem; }
+    .lista-folhas li:hover { transform: translateX(4px); background: var(--creme); }
+    .lista-folhas li::before { content: "🍂"; position: absolute; left: 18px; top: 15px; font-size: 1.1rem; animation: balanco 4s ease-in-out infinite; transform-origin: 50% 10%; }
+    .lista-folhas li:nth-child(2)::before { animation-delay: -1s; }
+    .lista-folhas li:nth-child(3)::before { animation-delay: -2s; }
+    .lista-folhas li:nth-child(4)::before { animation-delay: -3s; }
+    @keyframes balanco { 0%, 100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
     .destaque {
       font-family: var(--titulo); font-style: italic; font-weight: 500;
-      font-size: 1.7rem; line-height: 1.3;
+      font-size: 1.8rem; line-height: 1.3;
       color: var(--terracota-escuro);
-      text-align: center; margin: 32px 0 0;
+      text-align: center; margin: 36px 0 0;
     }
 
     /* História */
+    .historia { position: relative; }
+    .historia .container::before {
+      content: "“"; position: absolute; top: -40px; left: 4px;
+      font-family: var(--titulo); font-size: 9rem; line-height: 1; color: var(--rosa-seco); opacity: .35;
+    }
     .historia p { font-size: 1.08rem; }
     .assinatura {
       font-family: var(--titulo); font-style: italic; font-weight: 500;
-      font-size: 1.9rem; color: var(--terracota-escuro); margin-top: 24px;
+      font-size: 2rem; color: var(--terracota-escuro); margin-top: 26px;
     }
+    .js .assinatura { clip-path: inset(0 100% 0 0); transition: clip-path 1.6s var(--suave) .6s; }
+    .js .visivel .assinatura { clip-path: inset(0 0 0 0); }
 
     /* Cards da comunidade */
-    .cards { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 32px; }
+    .cards { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 34px; }
     .card {
       background: var(--creme);
-      border: 1px solid var(--linha);
-      border-radius: var(--raio);
-      padding: 24px;
+      border-radius: 22px;
+      padding: 26px 24px;
       box-shadow: var(--sombra);
+      transition: transform .35s var(--suave), box-shadow .35s;
     }
-    .card__icone { font-size: 1.8rem; line-height: 1; margin-bottom: 10px; }
+    .card:hover { transform: translateY(-5px); box-shadow: var(--sombra-hover); }
+    .card__icone {
+      display: grid; place-items: center;
+      width: 54px; height: 54px; border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #fff, var(--blush));
+      border: 1px solid rgba(217, 167, 154, .5);
+      font-size: 1.6rem; line-height: 1; margin-bottom: 14px;
+      transition: transform .5s var(--suave);
+    }
+    .card:hover .card__icone { transform: rotate(-10deg) scale(1.08); }
     .card h3 { margin-bottom: .25em; }
     .card p { margin: 0; color: var(--marrom-suave); }
 
-    /* Sobre */
-    .sobre { display: grid; grid-template-columns: 1fr; gap: 32px; align-items: center; }
-    .sobre .foto { max-width: 420px; width: 100%; margin: 0 auto; }
-    .nota { font-size: .95rem; color: var(--marrom-suave); margin-top: 8px; }
+    /* Sobre: medalhão em arco no lugar da foto */
+    .sobre { display: grid; grid-template-columns: 1fr; gap: 36px; align-items: center; }
+    .medalhao {
+      position: relative;
+      width: min(280px, 100%); aspect-ratio: 3 / 4; margin: 0 auto;
+      border-radius: 999px 999px 24px 24px;
+      background: linear-gradient(170deg, var(--blush), var(--bege));
+      display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+      padding: 24px;
+      box-shadow: var(--sombra);
+    }
+    .medalhao::before {
+      content: ""; position: absolute; inset: 10px;
+      border: 1px dashed var(--rosa-seco);
+      border-radius: 999px 999px 18px 18px;
+    }
+    .medalhao__nome { font-family: var(--titulo); font-style: italic; font-weight: 500; font-size: 5rem; line-height: 1; color: var(--terracota); margin: 0; animation: flutuar 6s ease-in-out infinite; }
+    .medalhao__linha { width: 46px; height: 1px; background: var(--rosa-seco); margin: 14px auto; }
+    .medalhao__info { font-size: .82rem; letter-spacing: .1em; text-transform: uppercase; color: var(--marrom-suave); margin: 0; line-height: 1.8; }
+    .medalhao__rosa { position: absolute; bottom: 22px; font-size: 1.4rem; animation: flutuar 5s ease-in-out infinite reverse; }
+    @keyframes flutuar { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+    .nota { font-size: .95rem; color: var(--marrom-suave); margin-top: 8px; font-style: italic; }
 
     /* Depoimentos: carrossel com snap no mobile, grade no desktop */
     .depoimentos {
       display: flex; gap: 14px;
       overflow-x: auto; scroll-snap-type: x mandatory;
-      padding: 8px var(--gutter) 20px;
+      padding: 12px var(--gutter) 22px;
       margin: 24px calc(var(--gutter) * -1) 0;
-      scrollbar-width: thin;
+      scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
     }
+    .depoimentos::-webkit-scrollbar { display: none; }
     .depoimento {
+      position: relative;
       flex: 0 0 82%;
       scroll-snap-align: center;
       background: var(--creme);
-      border: 1px solid var(--linha);
-      border-radius: var(--raio);
-      padding: 26px 22px;
+      border-radius: 22px;
+      padding: 40px 24px 24px;
       box-shadow: var(--sombra);
       display: flex; flex-direction: column; justify-content: space-between;
       margin: 0;
+      transition: transform .35s var(--suave), box-shadow .35s;
+    }
+    .depoimento:hover { transform: translateY(-4px) rotate(-.4deg); box-shadow: var(--sombra-hover); }
+    .depoimento::before {
+      content: "“"; position: absolute; top: 4px; left: 20px;
+      font-family: var(--titulo); font-size: 4.2rem; line-height: 1; color: var(--rosa-seco);
     }
     .depoimento blockquote {
-      margin: 0 0 16px;
+      margin: 0 0 18px;
       font-family: var(--titulo); font-size: 1.4rem; line-height: 1.35; font-style: italic; font-weight: 500;
     }
     .depoimento figcaption { font-size: .92rem; font-weight: 700; color: var(--terracota-escuro); }
     .dica-arraste { font-size: .85rem; color: var(--marrom-suave); text-align: center; margin: 0; }
-    .mimos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 36px; }
-    .legenda { text-align: center; color: var(--marrom-suave); font-style: italic; margin-top: 14px; }
+    .dica-arraste span { display: inline-block; animation: deslizar 1.8s ease-in-out infinite; }
+    @keyframes deslizar { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(6px); } }
 
     /* Planos */
-    .planos { display: flex; flex-direction: column; gap: 22px; margin-top: 36px; }
+    .secao-planos {
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 0%, rgba(217, 167, 154, .22), transparent 70%),
+        linear-gradient(var(--creme), var(--blush));
+      padding-top: 96px;
+    }
+    .planos { display: flex; flex-direction: column; gap: 26px; margin-top: 40px; }
     .plano {
       position: relative;
-      background: var(--off-white);
+      background: rgba(255, 255, 255, .55);
       border: 1px solid var(--linha);
-      border-radius: var(--raio);
+      border-radius: 24px;
       padding: 32px 24px 28px;
       box-shadow: var(--sombra);
       display: flex; flex-direction: column;
+      transition: transform .35s var(--suave), box-shadow .35s;
     }
+    .plano:hover { transform: translateY(-4px); box-shadow: var(--sombra-hover); }
     .plano--destaque {
       border: 2px solid var(--terracota);
       background: #FFFFFF;
-      box-shadow: 0 12px 36px rgba(194, 100, 58, .16);
-      padding-top: 44px;
+      padding-top: 46px;
+      animation: respirar 3.5s ease-in-out infinite;
+    }
+    @keyframes respirar {
+      0%, 100% { box-shadow: 0 12px 34px rgba(194, 100, 58, .14); }
+      50% { box-shadow: 0 14px 44px rgba(194, 100, 58, .28); }
     }
     .plano__selo {
       position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%);
       background: var(--terracota); color: #fff;
       font-size: .8rem; font-weight: 700; letter-spacing: .02em;
-      padding: 7px 16px; border-radius: 999px; white-space: nowrap;
+      padding: 8px 18px; border-radius: 999px; white-space: nowrap;
+      box-shadow: 0 6px 16px rgba(194, 100, 58, .3);
     }
-    .plano h3 { font-size: 1.7rem; margin-bottom: .2em; }
-    .plano__preco { font-family: var(--titulo); font-weight: 600; font-size: 2.3rem; line-height: 1.1; color: var(--marrom); margin: 6px 0 4px; }
+    .plano h3 { font-size: 1.75rem; margin-bottom: .2em; }
+    .plano__preco { font-family: var(--titulo); font-weight: 600; font-size: 2.4rem; line-height: 1.1; color: var(--marrom); margin: 6px 0 4px; }
     .plano__preco small { font-size: 1.1rem; font-weight: 600; }
     .plano__obs { font-size: .95rem; color: var(--marrom-suave); margin: 0 0 18px; }
-    .plano ul { list-style: none; padding: 0; margin: 0 0 26px; flex: 1; }
-    .plano li { padding: 7px 0 7px 28px; position: relative; }
-    .plano li::before { content: "✓"; position: absolute; left: 0; color: var(--terracota); font-weight: 700; }
-    .seguranca { text-align: center; font-size: .92rem; color: var(--marrom-suave); margin-top: 28px; }
+    .plano ul { list-style: none; padding: 18px 0 0; margin: 0 0 26px; flex: 1; border-top: 1px solid var(--linha); }
+    .plano li { padding: 7px 0 7px 30px; position: relative; }
+    .plano li::before {
+      content: "✓"; position: absolute; left: 0; top: 10px;
+      display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%;
+      background: var(--blush); color: var(--terracota); font-weight: 700; font-size: .75rem;
+    }
+    .seguranca { text-align: center; font-size: .92rem; color: var(--marrom-suave); margin-top: 30px; }
 
     /* FAQ */
-    .faq { margin-top: 28px; }
+    .faq { margin-top: 30px; display: grid; gap: 12px; }
     .faq details {
-      background: var(--off-white);
+      background: #FFFDF9;
       border: 1px solid var(--linha);
       border-radius: var(--raio);
-      margin-bottom: 12px;
       overflow: hidden;
+      transition: box-shadow .3s, border-color .3s;
     }
+    .faq details[open] { box-shadow: var(--sombra); border-color: rgba(217, 167, 154, .7); }
     .faq summary {
       cursor: pointer; list-style: none;
-      padding: 18px 52px 18px 20px; position: relative;
+      padding: 18px 56px 18px 20px; position: relative;
       font-weight: 700;
+      transition: color .2s;
     }
+    .faq summary:hover { color: var(--terracota-escuro); }
     .faq summary::-webkit-details-marker { display: none; }
     .faq summary::after {
-      content: "+"; position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
-      font-family: var(--titulo); font-size: 1.8rem; color: var(--terracota); transition: transform .2s;
+      content: "+"; position: absolute; right: 18px; top: 50%;
+      width: 28px; height: 28px; margin-top: -14px; border-radius: 50%;
+      display: grid; place-items: center;
+      background: var(--blush);
+      font-family: var(--titulo); font-size: 1.5rem; line-height: 1; color: var(--terracota);
+      transition: transform .35s var(--suave);
     }
-    .faq details[open] summary::after { transform: translateY(-50%) rotate(45deg); }
-    .faq details p { padding: 0 20px 18px; margin: 0; color: var(--marrom-suave); }
+    .faq details[open] summary::after { transform: rotate(135deg); }
+    .faq details p { padding: 0 20px 20px; margin: 0; color: var(--marrom-suave); }
+    .faq details[open] p { animation: abrir .45s var(--suave); }
+    @keyframes abrir { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 
     /* Fechamento */
-    .fechamento { background: var(--off-white); text-align: center; border-top: 1px solid var(--linha); }
+    .fechamento { text-align: center; padding: 88px 0; }
+    .fechamento .container { z-index: 1; }
     .fechamento p { font-size: 1.12rem; }
 
     /* Rodapé */
-    footer { padding: 36px 0 28px; text-align: center; font-size: .88rem; color: var(--marrom-suave); }
+    footer { padding: 56px 0 28px; text-align: center; font-size: .88rem; color: var(--marrom-suave); }
     footer nav { margin-bottom: 10px; }
-    footer nav a { color: var(--marrom-suave); text-decoration: none; padding: 4px; }
+    footer nav a { color: var(--marrom-suave); text-decoration: none; padding: 4px; transition: color .2s; }
     footer nav a:hover { color: var(--terracota-escuro); text-decoration: underline; }
 
     /* Botão fixo (mobile) */
     .cta-fixo {
       position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
-      padding: 12px var(--gutter) calc(12px + env(safe-area-inset-bottom));
+      padding: 14px var(--gutter) calc(12px + env(safe-area-inset-bottom));
       background: linear-gradient(to top, rgba(251, 246, 239, 1) 60%, rgba(251, 246, 239, 0));
-      transition: transform .3s ease, opacity .3s ease;
+      transition: transform .4s var(--suave), opacity .3s ease;
     }
     .cta-fixo.oculto { transform: translateY(110%); opacity: 0; pointer-events: none; }
 
-    /* Fade-in ao rolar */
-    .js .revelar { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+    /* Fade-in ao rolar + entrada em cascata dos itens */
+    .js .revelar { opacity: 0; transform: translateY(24px); transition: opacity .9s var(--suave), transform .9s var(--suave); }
     .js .revelar.visivel { opacity: 1; transform: none; }
+    .js .cascata > * { opacity: 0; transform: translateY(18px) scale(.98); transition: opacity .7s var(--suave), transform .7s var(--suave), box-shadow .35s, background .3s; }
+    .js .visivel .cascata > * { opacity: 1; transform: none; }
+    .js .visivel .cascata > *:hover { transform: translateY(-5px); }
+    .js .visivel .lista-folhas > *:hover { transform: translateX(4px); }
+    .js .visivel .faq > *:hover { transform: none; }
+
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      .js .revelar { opacity: 1; transform: none; transition: none; }
-      .btn, .cta-fixo { transition: none; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .js .revelar, .js .cascata > *, .js .entrada > * { opacity: 1; transform: none; }
+      .js .assinatura { clip-path: none; }
+      .js .ramo path { stroke-dashoffset: 0; }
+      .js .ramo circle { opacity: 1; transform: none; }
+      em { background-size: 100% .22em; }
+      .petalas { display: none; }
     }
 
     /* Desktop */
     @media (min-width: 768px) {
       body { padding-bottom: 0; font-size: 18px; }
-      section { padding: 88px 0; }
+      section { padding: 100px 0; }
       .cta-fixo { display: none; }
-      .cards { grid-template-columns: 1fr 1fr; }
-      .sobre { grid-template-columns: 5fr 7fr; gap: 40px; }
-      .hero { padding-top: 64px; }
-      .hero .foto { max-width: 520px; margin-left: auto; margin-right: auto; }
+      .hero { padding: 96px 0 120px; }
+      .cards { grid-template-columns: 1fr 1fr; gap: 20px; }
+      .sobre { grid-template-columns: 4fr 7fr; gap: 56px; }
       .depoimentos {
-        display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
-        overflow: visible; padding: 0; margin: 28px 0 0;
+        display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+        overflow: visible; padding: 12px 0 0; margin: 28px 0 0;
       }
+      .depoimento:nth-child(even) { margin-top: 28px; }
       .dica-arraste { display: none; }
-      .planos { flex-direction: row; align-items: center; gap: 26px; }
+      .planos { flex-direction: row; align-items: center; gap: 28px; }
       .plano { flex: 1; }
       .plano--mensal { order: 1; }
-      .plano--destaque { order: 2; flex: 1.12; padding: 52px 34px 36px; }
+      .plano--destaque { order: 2; flex: 1.12; padding: 54px 34px 36px; }
     }
   </style>
 </head>
@@ -341,27 +476,28 @@
 
   <!-- ============ DOBRA 1 — ABERTURA (HERO) ============ -->
   <section class="hero" aria-labelledby="titulo-hero">
-    <div class="container">
-      <div class="hero__texto">
-        <span class="selo">🍂 Comunidade da Jô</span>
-        <h1 id="titulo-hero">Sua casa começa a ficar em ordem quando o seu coração <em>encontra o lugar dele.</em></h1>
-        <p class="subtitulo">Uma comunidade para mulheres católicas que querem viver o lar com mais paz, fé e leveza. Sem cobrança, sem perfeição. Uma amiga caminhando com você.</p>
-        <a href="#planos" class="btn js-rolar">Quero fazer parte</a>
-        <p class="hero__preco">A partir de R$ 24,80 por mês</p>
-      </div>
-      <!-- FOTO: img/jo-hero.jpg — Jô em casa, na cozinha ou com uma xícara de café, luz natural. Proporção 4:5. (Primeira imagem: sem lazy) -->
-      <figure class="foto r-4x5">
-        <span class="foto__ph">Foto: Jô em casa, na cozinha ou com uma xícara de café, luz natural (img/jo-hero.jpg · 4:5)</span>
-        <img src="img/jo-hero.jpg" alt="Jô sorrindo na cozinha de casa, segurando uma xícara de café sob luz natural" width="800" height="1000" fetchpriority="high" onerror="this.remove()">
-      </figure>
+    <div class="petalas" aria-hidden="true" data-petalas="14"></div>
+    <div class="container entrada">
+      <svg class="ramo" viewBox="0 0 160 40" aria-hidden="true">
+        <path pathLength="1" d="M6 22 H60"/>
+        <path pathLength="1" d="M100 22 H154"/>
+        <path pathLength="1" d="M80 36 C80 28 80 18 80 8"/>
+        <path class="folha" pathLength="1" d="M80 28 C70 27 64 19 66 13 C73 15 79 21 80 28 Z"/>
+        <path class="folha" pathLength="1" d="M80 21 C90 20 95 12 93 7 C86 9 81 14 80 21 Z"/>
+        <circle cx="80" cy="5" r="2.6"/>
+      </svg>
+      <span class="selo">🍂 Comunidade da Jô</span>
+      <h1 id="titulo-hero">Sua casa começa a ficar em ordem quando o seu coração <em>encontra o lugar dele.</em></h1>
+      <p class="subtitulo">Uma comunidade para mulheres católicas que querem viver o lar com mais paz, fé e leveza. Sem cobrança, sem perfeição. Uma amiga caminhando com você.</p>
+      <div><a href="#planos" class="btn js-rolar">Quero fazer parte</a></div>
     </div>
   </section>
 
   <!-- ============ DOBRA 2 — IDENTIFICAÇÃO ============ -->
-  <section class="secao-alt" aria-labelledby="titulo-identificacao">
+  <section class="bege" aria-labelledby="titulo-identificacao">
     <div class="container revelar">
       <h2 id="titulo-identificacao" class="centro">Talvez você esteja vivendo <em>isso agora</em></h2>
-      <ul class="lista-folhas">
+      <ul class="lista-folhas cascata">
         <li>Você termina o dia com a sensação de que não deu conta de nada.</li>
         <li>Já se calou e se diminuiu tantas vezes para não decepcionar ninguém que nem sabe mais do que gosta.</li>
         <li>A casa pesa, porque por dentro também está pesado.</li>
@@ -386,11 +522,11 @@
 
   <!-- CONFIRMAR COM A JÔ: formato, frequência das lives e materiais incluídos. Ajustar os cards ao conteúdo real. -->
   <!-- ============ DOBRA 4 — O QUE VOCÊ ENCONTRA NA COMUNIDADE ============ -->
-  <section class="secao-alt" aria-labelledby="titulo-comunidade">
+  <section class="bege" aria-labelledby="titulo-comunidade">
     <div class="container revelar">
       <h2 id="titulo-comunidade" class="centro">Um lugar para cuidar de você <em>por inteiro</em></h2>
       <p class="subtitulo centro">Por fora e por dentro, com fé e com os pés no chão da vida real.</p>
-      <div class="cards">
+      <div class="cards cascata">
         <article class="card">
           <div class="card__icone" aria-hidden="true">🕯️</div>
           <h3>Ordem interior</h3>
@@ -432,11 +568,12 @@
   <section aria-labelledby="titulo-sobre">
     <div class="container container--largo">
       <div class="sobre revelar">
-        <!-- FOTO: img/jo-retrato.jpg — retrato da Jô, olhando para a câmera, fundo de casa aconchegante. Proporção 4:5. -->
-        <figure class="foto r-4x5">
-          <span class="foto__ph">Foto: retrato da Jô, olhando para a câmera, em casa (img/jo-retrato.jpg · 4:5)</span>
-          <img src="img/jo-retrato.jpg" alt="Retrato de Joaria Borges, a Jô, sorrindo em casa" width="800" height="1000" loading="lazy" onerror="this.remove()">
-        </figure>
+        <div class="medalhao" aria-hidden="true">
+          <p class="medalhao__nome">Jô</p>
+          <div class="medalhao__linha"></div>
+          <p class="medalhao__info">Esposa · Dona de casa<br>Católica</p>
+          <span class="medalhao__rosa">🌹</span>
+        </div>
         <div>
           <h2 id="titulo-sobre">Prazer, eu sou <em>a Jô</em></h2>
           <p>Sou dona de casa, esposa e católica. Hoje estou em formação como terapeuta, com um desejo muito claro no coração: cuidar de donas de casa.</p>
@@ -450,48 +587,34 @@
 
   <!-- ============ DOBRA 6 — O QUE AS ALUNAS DIZEM ============ -->
   <!-- Confirmar autorização das alunas. Se possível, trocar por prints reais em img/depoimentos/. -->
-  <section class="secao-alt" aria-labelledby="titulo-depoimentos">
+  <section class="bege" aria-labelledby="titulo-depoimentos">
     <div class="container revelar">
       <h2 id="titulo-depoimentos" class="centro">O que as alunas <em>dizem</em></h2>
-      <div class="depoimentos" tabindex="0" role="region" aria-label="Depoimentos das alunas">
+      <div class="depoimentos cascata" tabindex="0" role="region" aria-label="Depoimentos das alunas">
         <figure class="depoimento">
-          <blockquote>“A comunidade foi a resposta de uma oração.”</blockquote>
+          <blockquote>A comunidade foi a resposta de uma oração.</blockquote>
           <figcaption>Aluna da comunidade</figcaption>
         </figure>
         <figure class="depoimento">
-          <blockquote>“Uma grande graça conhecer ainda mais sobre Santa Rita através de você e da comunidade.”</blockquote>
+          <blockquote>Uma grande graça conhecer ainda mais sobre Santa Rita através de você e da comunidade.</blockquote>
           <figcaption>@dacisouza</figcaption>
         </figure>
         <figure class="depoimento">
-          <blockquote>“Aula maravilhosa e extremamente necessária. Verdadeiro ouro em pó.”</blockquote>
+          <blockquote>Aula maravilhosa e extremamente necessária. Verdadeiro ouro em pó.</blockquote>
           <figcaption>@wivianne</figcaption>
         </figure>
         <figure class="depoimento">
-          <blockquote>“Você é tão necessária para nós, Jô.”</blockquote>
+          <blockquote>Você é tão necessária para nós, Jô.</blockquote>
           <figcaption>@karinapaivaoliveira</figcaption>
         </figure>
       </div>
-      <p class="dica-arraste">Arraste para o lado para ler mais →</p>
-
-      <div class="mimos">
-        <!-- FOTO: img/mimo-1.jpg — mimo enviado às alunas: caneca personalizada. Proporção 1:1. -->
-        <figure class="foto r-1x1">
-          <span class="foto__ph">Foto: caneca personalizada enviada às alunas (img/mimo-1.jpg · 1:1)</span>
-          <img src="img/mimo-1.jpg" alt="Caneca personalizada da comunidade enviada de presente às alunas" width="600" height="600" loading="lazy" onerror="this.remove()">
-        </figure>
-        <!-- FOTO: img/mimo-2.jpg — mimo enviado às alunas: receitas. Proporção 1:1. -->
-        <figure class="foto r-1x1">
-          <span class="foto__ph">Foto: receitas enviadas às alunas (img/mimo-2.jpg · 1:1)</span>
-          <img src="img/mimo-2.jpg" alt="Cartões de receitas enviados de presente às alunas da comunidade" width="600" height="600" loading="lazy" onerror="this.remove()">
-        </figure>
-      </div>
-      <p class="legenda">Cada aluna é preciosa para mim. 🧡</p>
+      <p class="dica-arraste">Arraste para o lado para ler mais <span>→</span></p>
     </div>
   </section>
 
   <!-- ============ DOBRA 7 — PLANOS ============ -->
-  <section id="planos" aria-labelledby="titulo-planos">
-    <div class="container container--largo">
+  <section id="planos" class="secao-planos" aria-labelledby="titulo-planos">
+    <div class="container container--largo revelar">
       <h2 id="titulo-planos" class="centro">Escolha como você quer <em>caminhar com a gente</em></h2>
 
       <div class="planos">
@@ -529,10 +652,10 @@
   </section>
 
   <!-- ============ DOBRA 8 — PERGUNTAS FREQUENTES ============ -->
-  <section class="secao-alt" aria-labelledby="titulo-faq">
+  <section aria-labelledby="titulo-faq">
     <div class="container revelar">
       <h2 id="titulo-faq" class="centro">Ficou alguma <em>dúvida?</em></h2>
-      <div class="faq">
+      <div class="faq cascata">
         <details>
           <summary>Preciso ser católica para participar?</summary>
           <p>A comunidade nasce da fé católica e tudo aqui é vivido a partir dela. Se você deseja caminhar com esse olhar, será muito bem-vinda.</p>
@@ -566,10 +689,18 @@
   </section>
 
   <!-- ============ DOBRA 9 — FECHAMENTO ============ -->
-  <section class="fechamento" aria-labelledby="titulo-fechamento">
+  <section class="bege fechamento" aria-labelledby="titulo-fechamento">
+    <div class="petalas" aria-hidden="true" data-petalas="10"></div>
     <div class="container revelar">
-      <div class="divisor" aria-hidden="true">🍂</div>
-      <h2 id="titulo-fechamento" style="margin-top:20px">Os dias comuns também podem ser <em>bonitos.</em></h2>
+      <svg class="ramo" viewBox="0 0 160 40" aria-hidden="true">
+        <path pathLength="1" d="M6 22 H60"/>
+        <path pathLength="1" d="M100 22 H154"/>
+        <path pathLength="1" d="M80 36 C80 28 80 18 80 8"/>
+        <path class="folha" pathLength="1" d="M80 28 C70 27 64 19 66 13 C73 15 79 21 80 28 Z"/>
+        <path class="folha" pathLength="1" d="M80 21 C90 20 95 12 93 7 C86 9 81 14 80 21 Z"/>
+        <circle cx="80" cy="5" r="2.6"/>
+      </svg>
+      <h2 id="titulo-fechamento">Os dias comuns também podem ser <em>bonitos.</em></h2>
       <p>Você não precisa dar conta de tudo. Precisa só dar o primeiro passo, e não vai dar sozinha. Eu estou te esperando aqui dentro.</p>
       <div class="cta-wrap">
         <a href="#planos" class="btn js-rolar">Quero fazer parte da comunidade</a>
@@ -619,8 +750,36 @@
       });
     });
 
+    // Pétalas caindo (decorativas)
+    if (!reduzir) {
+      document.querySelectorAll('[data-petalas]').forEach(function (box) {
+        var n = parseInt(box.dataset.petalas, 10);
+        for (var i = 0; i < n; i++) {
+          var p = document.createElement('span');
+          p.className = 'petala';
+          p.style.left = (Math.random() * 100) + '%';
+          p.style.animationDuration = (11 + Math.random() * 10) + 's';
+          p.style.animationDelay = (-Math.random() * 20) + 's';
+          p.style.scale = (0.7 + Math.random() * 0.6).toFixed(2);
+          box.appendChild(p);
+        }
+      });
+    }
+
+    // Itens em cascata: atraso progressivo
+    document.querySelectorAll('.cascata').forEach(function (lista) {
+      Array.prototype.forEach.call(lista.children, function (item, i) {
+        item.style.transitionDelay = (0.15 + i * 0.12) + 's';
+        // depois da entrada, remove o atraso para o hover responder na hora
+        item.addEventListener('transitionend', function limpar(ev) {
+          if (ev.propertyName === 'opacity') { item.style.transitionDelay = ''; item.removeEventListener('transitionend', limpar); }
+        });
+      });
+    });
+
+    var revelar = document.querySelectorAll('.revelar');
     if (!('IntersectionObserver' in window)) {
-      document.querySelectorAll('.revelar').forEach(function (el) { el.classList.add('visivel'); });
+      revelar.forEach(function (el) { el.classList.add('visivel'); });
       return;
     }
 
@@ -631,7 +790,6 @@
     }, { threshold: 0.15 }).observe(planos);
 
     // Fade-in ao rolar
-    var revelar = document.querySelectorAll('.revelar');
     if (reduzir) {
       revelar.forEach(function (el) { el.classList.add('visivel'); });
       return;
@@ -640,7 +798,7 @@
       entradas.forEach(function (en) {
         if (en.isIntersecting) { en.target.classList.add('visivel'); obs.unobserve(en.target); }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
     revelar.forEach(function (el) { obs.observe(el); });
   })();
 </script>
